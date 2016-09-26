@@ -6,6 +6,18 @@
     <ContentPage.BindingContext>
         <local:MainViewModel />
     </ContentPage.BindingContext>
-	<ContentPage.Content>
-	</ContentPage.Content>
+    <ContentPage.Content>
+        <ListView ItemsSource="{Binding Items}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Key}" />
+                            <Label Text="{Binding Value}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
 </ContentPage>
