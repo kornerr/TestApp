@@ -6,6 +6,10 @@
     <ContentPage.BindingContext>
         <local:MainViewModel />
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Change"
+                     Command="{Binding Change}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView ItemsSource="{Binding Items}">
             <ListView.ItemTemplate>
