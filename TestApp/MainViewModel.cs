@@ -13,13 +13,13 @@ namespace TestApp
 
 public class MainViewModel
 {
-    public ObservableCollection<Item> Items { get; set; }
+    public CustomObservableCollection<Item> Items { get; set; }
 
     public ICommand Change { get; set; }
 
     public MainViewModel()
     {
-        Items = new ObservableCollection<Item>();
+        Items = new CustomObservableCollection<Item>();
         // Research collection change events.
         Items.CollectionChanged += CollectionDidChange;
 
@@ -40,9 +40,7 @@ public class MainViewModel
                 item.Value = "valNew";
                 Debug.WriteLine("AFTER item: {0}/{1}", item.Key, item.Value);
                 // Report.
-                Items.OnCollectionChanged(
-                    NotifyCollectionChangedEventArgs(
-                        NotifyCollectionChangedAction.Reset));
+                Items.ReportItemChange(item);
             });
     }
     public void CollectionDidChange(object sender,
