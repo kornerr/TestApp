@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Input;
@@ -19,6 +20,9 @@ public class MainViewModel
     public MainViewModel()
     {
         Items = new ObservableCollection<Item>();
+        // Research collection change events.
+        Items.CollectionChanged += CollectionDidChange;
+
         
         // Stub data.
         Items.Add(new Item("key1", "val1"));
@@ -35,7 +39,31 @@ public class MainViewModel
                 item.Key   = "keyNew";
                 item.Value = "valNew";
                 Debug.WriteLine("AFTER item: {0}/{1}", item.Key, item.Value);
+                // Report.
+                Items.OnCollectionChanged(
+                    NotifyCollectionChangedEventArgs(
+                        NotifyCollectionChangedAction.Reset));
             });
+    }
+    public void CollectionDidChange(object sender,
+                                    NotifyCollectionChangedEventArgs e)
+    {
+        string msg =
+@"Collection did change. Sender: {0}
+Action:           {1}
+NewItems:         {2}
+NewStartingIndex: {3}
+OldItems:         {4}
+OldStartingIndex: {5}";
+        Debug.WriteLine(msg,
+                        sender,
+                        e.Action,
+                        string.Join(", ", e.NewItems),
+                        e.NewStartingIndex,
+                        string.Join(", ", e.OldItems),
+                        e.OldStartingIndex);
+        foreach (var item in e.NewItems)
+            Debug.WriteLine("NewItem: {0}", item);
     }
 }
 
